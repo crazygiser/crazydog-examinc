@@ -1,0 +1,57 @@
+server:
+  port: 18001
+
+feign:
+  hystrix:
+    enabled: true
+
+# swagger2
+swagger2:
+  package: com.crazydog.examinc.system.controller
+
+spring:
+  application:
+    name: crazydog-examinc-system #给你的微服务应用起一名字
+  datasource:
+    master:
+      jdbc-url: jdbc:oracle:thin:@192.168.0.22:1521:ORCL1
+      driver-class-name: oracle.jdbc.OracleDriver
+      type: com.zaxxer.hikari.HikariDataSource
+      username: WATF
+      password: watf+1
+      connection-test-query: SELECT 1 FROM DUAL
+    slave:
+      jdbc-url: jdbc:oracle:thin:@192.168.0.22:1521:ORCL1
+      driver-class-name: oracle.jdbc.OracleDriver
+      type: com.zaxxer.hikari.HikariDataSource
+      username: CZKS
+      password: czks+1
+      connection-test-query: SELECT 1 FROM DUAL
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 200MB
+      enabled: true
+management:
+  security:
+    basic:
+      enabled: false # spring-boot 1.5.2之后严格执行安全策略，所以需要配置这个为false
+
+mybatis:
+  mapperLocations: classpath:/mapper/*.xml
+  typeAliasesPackage: com.carzydog
+  config-location: classpath:mybatis-config.xml
+
+nmg3:
+  imagePath: /home/apache-tomcat-8.5.12/webapps/nmg/images/
+  filePath: /home/apache-tomcat-8.5.12/webapps/nmg/files/
+  videoPath: /home/apache-tomcat-8.5.12/webapps/nmg/video/
+  serverl: http://192.168.0.182:18080/nmg
+  imageShowPath: /images/
+  fileShowPath:  /files/
+  videoShowPath: /video/
+  fileDownloadPath: /home/apache-tomcat-8.5.12/webapps/nmg/
+debug: true
+ribbon:
+  ReadTimeout: 180000
+  ConnectTimeout: 120000

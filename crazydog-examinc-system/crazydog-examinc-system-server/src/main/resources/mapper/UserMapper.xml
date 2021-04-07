@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crazydog.examinc.system.mapper.UserMapper">
+
+    <select id="queryUserByUserId" resultType="com.crazydog.examinc.system.bean.user.TbUser"
+            parameterType="java.lang.String">
+        SELECT ucode,upcode,upwd,uname,idcard,utel
+        FROM WATF_B_UP_U
+        WHERE UPCODE = #{upcode}
+    </select>
+
+    <select id="queryUserList" resultType="com.crazydog.examinc.system.bean.user.TbUser"
+            parameterType="com.crazydog.examinc.system.bean.user.UserListRequest">
+        SELECT * FROM (
+        SELECT ROWNUM AS
+        ROWNO,ucode,upcode,upwd,uname,idcard,utel
+        FROM WATF_B_UP_U
+        WHERE 1=1
+        <if test="upcode != null and upcode != ''">
+            AND (UPCODE like '%'||#{upcode}||'%')
+        </if>
+        <if test="limit!=1 and limit!=null">
+            AND ROWNUM <![CDATA[ <= ]]> ${current}*${limit}
+        </if>
+        ) T
+        WHERE T.ROWNO <![CDATA[ > ]]> (${current}-1)*${limit}
+        ORDER BY UPCODE
+    </select>
+
+    <select id="queryUserListCount" resultType="java.lang.Integer"
+            parameterType="com.crazydog.examinc.system.bean.user.UserListRequest">
+        SELECT COUNT(*)
+        FROM WATF_B_UP_U
+    </select>
+
+    <select id="queryUserByUserId1" resultType="com.crazydog.examinc.system.bean.user.TbUser1">
+        SELECT user_id,dept_id,user_name,nick_name
+        FROM SYS_USER
+    </select>
+
+</mapper>
