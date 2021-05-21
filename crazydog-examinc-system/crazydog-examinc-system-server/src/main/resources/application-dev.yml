@@ -17,8 +17,8 @@ spring:
       jdbc-url: jdbc:oracle:thin:@192.168.0.22:1521:ORCL1
       driver-class-name: oracle.jdbc.OracleDriver
       type: com.zaxxer.hikari.HikariDataSource
-      username: WATF
-      password: watf+1
+      username: DLYS
+      password: dlys+1
       connection-test-query: SELECT 1 FROM DUAL
     slave:
       jdbc-url: jdbc:oracle:thin:@192.168.0.22:1521:ORCL1

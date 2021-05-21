@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crazydog.examinc.system.mapper.ExamMapper">
+
+    <select id="examCjtj" resultType="com.crazydog.examinc.system.bean.user.TbExamKstj">
+
+
+
+        SELECT
+        bmdd as bmdd,
+        sum( llkmzkykrs ) as llkmzkykrs,
+        sum( llkmzkskrs ) as llkmzkskrs,
+        sum( llkmhgrs ) as llkmhgrs,
+        round( sum( llkmhgrs ) / sum( llkmzkskrs ), 4 ) as llhgl,
+        sum( ll7879 ) as ll7879,
+        sum( yynlzkykrs ) as yynlzkykrs,
+        sum(yynlzskrs) as yynlzskrs,
+        sum( yynlhgrs ) as yynlhgrs,
+        round( sum( yynlhgrs ) / sum( yynlzskrs ), 4 ) as yyhgl,
+        sum( yynl7879 ) as yynl7879,
+        sum( ykrs ) as ykrs,
+        sum( ksrs ) as ksrs,
+        sum( tgrs ) as tgrs,
+        sum( bmrs ) as bmrs,
+        sum( yzkrs ) as yzkrs,
+        sum( llbkrs ) as llbkrs ,
+        sum( scbkrs ) as scbkrs,
+        sum( llbkrs)+ sum(scbkrs ) as bkrs,
+        sum(bkhgrs) as bkhgrs,
+        sum( llbkrs)+ sum(scbkrs )-sum(bkhgrs) as bkbhgrs
+        FROM
+        (
+        SELECT
+        Y.YKRS,
+        LLKMZKYKRS.LLKMZKYKRS,
+        LLKMZKSKRS.LLKMZKSKRS,
+        LL7879.LL7879,
+        LLKMHGRS.LLKMHGRS,
+        YYNLZKYKRS.YYNLZKYKRS,
+        YYNLZSKRS.YYNLZSKRS,
+        YYNL7879.YYNL7879,
+        YYNLHGRS.YYNLHGRS,
+        YY.KSRS,
+        YYY.TGRS,
+        BM.BMRS,
+        YZKRS.YZKRS,
+        LLBKRS.LLBKRS,
+        SCBKRS.SCBKRS,
+        BKHGRS.BKHGRS,
+        CASE
+        SUBSTR( Y.SLDWQX, LENGTH( Y.SLDWQX ), 1 )
+        WHEN '区' THEN
+        SUBSTR( Y.SLDWQX, 1, LENGTH( Y.SLDWQX ) - 1 ) ELSE Y.SLDWQX
+        END BMDD
+        FROM
+        (
+        SELECT
+        T.SLDWQX,
+        COUNT( DISTINCT T.PSN ) AS YKRS
+        FROM
+        (
+        SELECT
+        A.*,
+        B.SLDWQX
+        FROM
+        DL_KS_YK A
+        LEFT JOIN DL_B_BM B ON A.BMID = B.BMID
+        WHERE
+        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
+        AND '2020-12-30'
+        AND A.FLAG = '1'
+        AND A.ISJF = '1'
+        ) T
+        GROUP BY
+        T.SLDWQX
+        ) Y
+        LEFT JOIN (
+        SELECT
+        T.SLDWQX,
+        COUNT( DISTINCT T.PSN ) AS LLKMZKYKRS
+        FROM
+        (
+        SELECT
+        A.*,
+        B.SLDWQX
+        FROM
+        DL_KS_YK A
+        LEFT JOIN DL_B_BM B ON A.BMID = B.BMID
+        WHERE
+        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
+        AND '2020-12-30'
+        AND A.FLAG = '1'
+        AND A.ISJF = '1'
+        AND A.KM = 1
+        ) T
+        GROUP BY
+        T.SLDWQX
+        ) LLKMZKYKRS ON Y.SLDWQX = LLKMZKYKRS.SLDWQX
+        LEFT JOIN (
+        SELECT
+        T.SLDWQX,
+        COUNT( DISTINCT T.PSN ) AS LLKMZKSKRS
+        FROM
+        (
+        SELECT
+        A.PSN,
+        B.SLDWQX
+        FROM
+        DL_KS_CJ A
+        LEFT JOIN DL_B_BM B ON A.PSN = B.PSN
+        WHERE
+        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
+        AND '2020-12-30'
+        AND A.CJ != '-1'
+        AND A.KM = 1
+        ) T
+        GROUP BY
+        T.SLDWQX
+        ) LLKMZKSKRS ON Y.SLDWQX = LLKMZKSKRS.SLDWQX
+
+        LEFT JOIN (
+        SELECT
+        T.SLDWQX,
+        COUNT( DISTINCT T.PSN ) AS LL7879
+        FROM
+        (
+        SELECT
+        A.PSN,
+        B.SLDWQX
+        FROM
+        DL_KS_CJ A
+        LEFT JOIN DL_B_BM B ON A.PSN = B.PSN
+        WHERE
+        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
+        AND '2020-12-30'
+        AND A.CJ <![CDATA[ >= ]]>  '78'
+        AND A.Cj <![CDATA[ <= ]]> '79'
+        AND A.KM = 1
+        ) T
+        GROUP BY
+        T.SLDWQX
+        ) LL7879 ON Y.SLDWQX = LL7879.SLDWQX
+        LEFT JOIN (
+        SELECT
+        T.SLDWQX,
+        COUNT( DISTINCT T.PSN ) AS LLKMHGRS
+        FROM
+        (
+        SELECT
+        A.PSN,
+        B.SLDWQX
+        FROM
+        DL_KS_CJ A
+        LEFT JOIN DL_B_BM B ON A.PSN = B.PSN
+        WHERE
+        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
+        AND '2020-12-30'
+        AND A.CJ >= '80'
+        AND A.KM = 1
+        ) T
+        GROUP BY
+        T.SLDWQX
+        ) LLKMHGRS ON Y.SLDWQX = LLKMHGRS.SLDWQX
+        LEFT JOIN (
+        SELECT
+        T.SLDWQX,
+        COUNT( DISTINCT T.PSN ) AS YYNLZKYKRS
+        FROM
+        (
+        SELECT
+        A.*,
+        B.SLDWQX
+        FROM
+        DL_KS_YK A
+        LEFT JOIN DL_B_BM B ON A.BMID = B.BMID
+        WHERE
+        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
+        AND '2020-12-30'
+        AND A.FLAG = '1'
+        AND A.ISJF = '1'
+        AND A.KM = 2
+        ) T
+        GROUP BY
+        T.SLDWQX
+        ) YYNLZKYKRS ON Y.SLDWQX = YYNLZKYKRS.SLDWQX
+        LEFT JOIN (
+        SELECT
+        T.SLDWQX,
+        COUNT( DISTINCT T.PSN ) AS YYNLZSKRS
+        FROM
+        (
+        SELECT
+        A.PSN,
+        B.SLDWQX
+        FROM
+        DL_KS_CJ A
+        LEFT JOIN DL_B_BM B ON A.PSN = B.PSN
+        WHERE
+        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
+        AND '2020-12-30'
+        AND A.CJ != '-1'
+        AND A.KM = 2
+        ) T
+        GROUP BY
+        T.SLDWQX
+        ) YYNLZSKRS ON Y.SLDWQX = YYNLZSKRS.SLDWQX
+        LEFT JOIN (
+        SELECT
+        T.SLDWQX,
+        COUNT( DISTINCT T.PSN ) AS YYNLHGRS
+        FROM
+        (
+        SELECT
+        A.PSN,
+        B.SLDWQX
+        FROM
+        DL_KS_CJHZ A
+        LEFT JOIN DL_B_BM B ON A.PSN = B.PSN
+        WHERE
+        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
+        AND '2020-12-30'
+        AND A.CJ >= '80'
+        AND A.KM = 2
+        ) T
+        GROUP BY
+        T.SLDWQX
+        ) YYNLHGRS ON Y.SLDWQX = YYNLHGRS.SLDWQX
+        LEFT JOIN (
+        SELECT
+        T.SLDWQX,
+        COUNT( DISTINCT T.PSN ) AS YYNL7879
+        FROM
+        (
+        SELECT
+        A.PSN,
+        B.SLDWQX
+        FROM
+        DL_KS_CJHZ A
+        LEFT JOIN DL_B_BM B ON A.PSN = B.PSN
+        WHERE
+        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
+        AND '2020-12-30'
+        AND A.CJ <![CDATA[ >= ]]>  '78'
+        AND A.CJ <![CDATA[ <= ]]>  '79'
+        AND A.KM = 2
+        ) T
+        GROUP BY
+        T.SLDWQX
+        ) YYNL7879 ON Y.SLDWQX = YYNL7879.SLDWQX
+        LEFT JOIN (
+        SELECT
+        T.SLDWQX,
+        COUNT( DISTINCT T.PSN ) AS KSRS
+        FROM
+        (
+        SELECT
+        A.PSN,
+        B.SLDWQX
+        FROM
+        DL_KS_CJ A
+        LEFT JOIN DL_B_BM B ON A.PSN = B.PSN
+        WHERE
+        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
+        AND '2020-12-30'
+        AND A.CJ != '-1'
+        ) T
+        GROUP BY
+        T.SLDWQX
+        ) YY ON Y.SLDWQX = YY.SLDWQX
+        LEFT JOIN (
+        SELECT
+        T.SLDWQX,
+        COUNT( DISTINCT T.PSN ) AS TGRS
+        FROM
+        (
+        SELECT
+        A.PSN,
+        B.SLDWQX
+        FROM
+        DL_HG_HGRY A
+        LEFT JOIN DL_B_BM B ON A.PSN = B.PSN
+        WHERE
+        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
+        AND '2020-12-30'
+        AND A.FLAG = '1'
+        ) T
+        GROUP BY
+        T.SLDWQX
+        ) YYY ON Y.SLDWQX = YYY.SLDWQX
+        LEFT JOIN (
+        SELECT
+        T.SLDWQX,
+        COUNT( DISTINCT T.PSN ) AS BMRS
+        FROM
+        (
+        SELECT
+        B.PSN,
+        B.SLDWQX
+        FROM
+        DL_B_BM B
+        WHERE
+        TO_CHAR( B.SLTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
+        AND '2020-12-30'
+        AND B.FLAG != '0'
+        ) T
+        GROUP BY
+        T.SLDWQX
+        ) BM ON Y.SLDWQX = BM.SLDWQX
+        LEFT JOIN (
+        SELECT
+        T.SLDWQX,
+        COUNT( DISTINCT T.PSN ) AS YZKRS
+        FROM
+        (
+        SELECT
+        A.*,
+        B.SLDWQX
+        FROM
+        DL_KS_YK A
+        LEFT JOIN DL_B_BM B ON A.BMID = B.BMID
+        WHERE
+        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
+        AND '2020-12-30'
+        AND A.ISJF = '1'
+        AND A.FLAG = '1'
+        AND A.ZKBK = '1'
+        ) T
+        GROUP BY
+        T.SLDWQX
+        ) YZKRS ON Y.SLDWQX = YZKRS.SLDWQX
+        LEFT JOIN (
+        SELECT
+        T.SLDWQX,
+        COUNT( DISTINCT T.PSN ) AS LLBKRS
+        FROM
+        (
+        SELECT
+        A.*,
+        B.SLDWQX
+        FROM
+        DL_KS_YK A
+        LEFT JOIN DL_B_BM B ON A.BMID = B.BMID
+        WHERE
+        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
+        AND '2020-12-30'
+        AND A.ISJF = '1'
+        AND A.FLAG = '1'
+        AND A.ZKBK = '2'
+        AND A.KM = '1'
+        ) T
+        GROUP BY
+        T.SLDWQX
+        ) LLBKRS ON Y.SLDWQX = LLBKRS.SLDWQX
+        LEFT JOIN (
+        SELECT
+        T.SLDWQX,
+        COUNT( DISTINCT T.PSN ) AS SCBKRS
+        FROM
+        (
+        SELECT
+        A.*,
+        B.SLDWQX
+        FROM
+        DL_KS_YK A
+        LEFT JOIN DL_B_BM B ON A.BMID = B.BMID
+        WHERE
+        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
+        AND '2020-12-30'
+        AND A.ISJF = '1'
+        AND A.FLAG = '1'
+        AND A.ZKBK = '2'
+        AND A.KM = '3'
+        ) T
+        GROUP BY
+        T.SLDWQX
+        ) SCBKRS ON Y.SLDWQX = SCBKRS.SLDWQX
+        LEFT JOIN
+        (
+        SELECT
+        B.SLDWQX,
+        COUNT( DISTINCT T.PSN ) AS BKHGRS
+        FROM
+        DL_HG_HGRY T
+        LEFT JOIN
+        DL_KS_YK YK
+        ON T.PSN=YK.PSN
+        LEFT JOIN DL_B_BM B
+        ON T.PSN = B.PSN
+        WHERE
+        TO_CHAR( T.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01' AND '2020-12-31'
+        AND T.FLAG = '1'
+        AND YK.ZKBK=2
+        GROUP BY
+        B.SLDWQX
+        ) BKHGRS ON Y.SLDWQX = BKHGRS.SLDWQX
+        ) RES
+        GROUP BY
+        RES.BMDD
+        ORDER BY
+        RES.BMDD
+    </select>
+
+</mapper>
