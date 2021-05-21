@@ -66,8 +66,8 @@
         DL_KS_YK A
         LEFT JOIN DL_B_BM B ON A.BMID = B.BMID
         WHERE
-        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
-        AND '2020-12-30'
+        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN #{starttime}
+        AND #{endtime}
         AND A.FLAG = '1'
         AND A.ISJF = '1'
         ) T
@@ -87,8 +87,8 @@
         DL_KS_YK A
         LEFT JOIN DL_B_BM B ON A.BMID = B.BMID
         WHERE
-        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
-        AND '2020-12-30'
+        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN #{starttime}
+        AND #{endtime}
         AND A.FLAG = '1'
         AND A.ISJF = '1'
         AND A.KM = 1
@@ -109,8 +109,8 @@
         DL_KS_CJ A
         LEFT JOIN DL_B_BM B ON A.PSN = B.PSN
         WHERE
-        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
-        AND '2020-12-30'
+        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN #{starttime}
+        AND #{endtime}
         AND A.CJ != '-1'
         AND A.KM = 1
         ) T
@@ -131,8 +131,8 @@
         DL_KS_CJ A
         LEFT JOIN DL_B_BM B ON A.PSN = B.PSN
         WHERE
-        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
-        AND '2020-12-30'
+        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN #{starttime}
+        AND #{endtime}
         AND A.CJ <![CDATA[ >= ]]>  '78'
         AND A.Cj <![CDATA[ <= ]]> '79'
         AND A.KM = 1
@@ -153,8 +153,8 @@
         DL_KS_CJ A
         LEFT JOIN DL_B_BM B ON A.PSN = B.PSN
         WHERE
-        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
-        AND '2020-12-30'
+        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN #{starttime}
+        AND #{endtime}
         AND A.CJ >= '80'
         AND A.KM = 1
         ) T
@@ -174,8 +174,8 @@
         DL_KS_YK A
         LEFT JOIN DL_B_BM B ON A.BMID = B.BMID
         WHERE
-        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
-        AND '2020-12-30'
+        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN #{starttime}
+        AND #{endtime}
         AND A.FLAG = '1'
         AND A.ISJF = '1'
         AND A.KM = 2
@@ -196,8 +196,8 @@
         DL_KS_CJ A
         LEFT JOIN DL_B_BM B ON A.PSN = B.PSN
         WHERE
-        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
-        AND '2020-12-30'
+        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN #{starttime}
+        AND #{endtime}
         AND A.CJ != '-1'
         AND A.KM = 2
         ) T
@@ -217,8 +217,8 @@
         DL_KS_CJHZ A
         LEFT JOIN DL_B_BM B ON A.PSN = B.PSN
         WHERE
-        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
-        AND '2020-12-30'
+        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN #{starttime}
+        AND #{endtime}
         AND A.CJ >= '80'
         AND A.KM = 2
         ) T
@@ -238,8 +238,8 @@
         DL_KS_CJHZ A
         LEFT JOIN DL_B_BM B ON A.PSN = B.PSN
         WHERE
-        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
-        AND '2020-12-30'
+        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN #{starttime}
+        AND #{endtime}
         AND A.CJ <![CDATA[ >= ]]>  '78'
         AND A.CJ <![CDATA[ <= ]]>  '79'
         AND A.KM = 2
@@ -260,8 +260,8 @@
         DL_KS_CJ A
         LEFT JOIN DL_B_BM B ON A.PSN = B.PSN
         WHERE
-        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
-        AND '2020-12-30'
+        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN #{starttime}
+        AND #{endtime}
         AND A.CJ != '-1'
         ) T
         GROUP BY
@@ -280,8 +280,8 @@
         DL_HG_HGRY A
         LEFT JOIN DL_B_BM B ON A.PSN = B.PSN
         WHERE
-        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
-        AND '2020-12-30'
+        TO_CHAR( A.SCTIME, 'YYYY-MM-DD' ) BETWEEN #{starttime}
+        AND #{endtime}
         AND A.FLAG = '1'
         ) T
         GROUP BY
@@ -299,8 +299,8 @@
         FROM
         DL_B_BM B
         WHERE
-        TO_CHAR( B.SLTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
-        AND '2020-12-30'
+        TO_CHAR( B.SLTIME, 'YYYY-MM-DD' ) BETWEEN #{starttime}
+        AND #{endtime}
         AND B.FLAG != '0'
         ) T
         GROUP BY
@@ -319,8 +319,8 @@
         DL_KS_YK A
         LEFT JOIN DL_B_BM B ON A.BMID = B.BMID
         WHERE
-        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
-        AND '2020-12-30'
+        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN #{starttime}
+        AND #{endtime}
         AND A.ISJF = '1'
         AND A.FLAG = '1'
         AND A.ZKBK = '1'
@@ -341,8 +341,8 @@
         DL_KS_YK A
         LEFT JOIN DL_B_BM B ON A.BMID = B.BMID
         WHERE
-        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
-        AND '2020-12-30'
+        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN #{starttime}
+        AND #{endtime}
         AND A.ISJF = '1'
         AND A.FLAG = '1'
         AND A.ZKBK = '2'
@@ -364,8 +364,8 @@
         DL_KS_YK A
         LEFT JOIN DL_B_BM B ON A.BMID = B.BMID
         WHERE
-        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01'
-        AND '2020-12-30'
+        TO_CHAR( A.CZTIME, 'YYYY-MM-DD' ) BETWEEN #{starttime}
+        AND #{endtime}
         AND A.ISJF = '1'
         AND A.FLAG = '1'
         AND A.ZKBK = '2'
@@ -387,7 +387,8 @@
         LEFT JOIN DL_B_BM B
         ON T.PSN = B.PSN
         WHERE
-        TO_CHAR( T.SCTIME, 'YYYY-MM-DD' ) BETWEEN '2020-01-01' AND '2020-12-31'
+        TO_CHAR( T.SCTIME, 'YYYY-MM-DD' ) BETWEEN #{starttime}
+        AND #{endtime}
         AND T.FLAG = '1'
         AND YK.ZKBK=2
         GROUP BY
